@@ -39,7 +39,7 @@
      </div>
      
      <!--PRODUTOS-->
-     <div class="prot">
+     <div id="prot" class="prot">
         <div name="imagem" id="imagem" class="imagem">
         <?php 
             while ($linhas = $comando->fetch()) 
@@ -106,7 +106,11 @@ btnDecrementar.addEventListener("click", function()
   p$.innerHTML = contador;
     if (contador <= 0)
     {
-        window.confirm("Deseja remover o item do carrinho?")
+        if (window.confirm("Deseja remover o item do carrinho?"))
+        {
+            prot.style.display = "none"; 
+        }
+
     }
 })
 
