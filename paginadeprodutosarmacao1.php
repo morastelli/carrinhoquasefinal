@@ -1,6 +1,11 @@
 <?php
 include ("conecta.php");
 
+
+$foto = ["imagem"];
+
+$nomefoto = "armacao3";
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -35,26 +40,11 @@ include ("conecta.php");
                     <h1 name="nome" id="nome">Armação Marrom</h1>
                     <p>poucas unidades</p>
                     <div class="prices">
-                    <span class="price" name="preco" id="preço">$85,00</span>
+                    <span class="price" name="preco" id="preco">$85,00</span>
                     <span class="off">$100,00</span>
                     </div>
                     <div class="options">
-                        <form action="paginadeprodutosarmacao1.php" enctype="multipart/form-data" method="post"><button type="submit" name="comprar" class=button>Adicionar ao Carrinho</button></form>
-                        <?php
-
-                            
-                            if(isset($_POST["comprar"]) )
-                            {
-                                $comando = $pdo->prepare("INSERT INTO `produtos` (`nome`, `preco`, `quantidade`,`carrinho`,`imagem`)VALUES(:nome, :preco, :quantidade,:carrinho,:imagem)");
-                                $comando->bindParam(":nome", $nome);
-                                $comando->bindParam(":preco", $senha);
-                                $comando->bindParam(":quantidade", $quantidade);
-                                $comando->bindParam(":carrinho", $carrinho);
-                                $comando->bindParam(":imagem", $imagem, PDO::PARAM_LOB);
-                                $resultado = $comando->execute();
-                                ?><script>window.location.replace("carrinho.php");</script><?php
-                            }
-                            ?>
+                          <button onclick="comprar()" type="submit" name="comprar" class=button>Adicionar ao Carrinho</button>
                         <div class="con-like">
                             <input title="like" type="checkbox" class="like">
                             <div class="checkmark">
@@ -85,7 +75,10 @@ include ("conecta.php");
 <script src="alertCarrinho.js"></script>
 </html>
 <script>
-
+function comprar()
+{
+  window.open("carrinho.php?nome=" +document.getElementById("nome").innerHTML+"&preco="+document.getElementById("preco").innerHTML+"&imagem="+"images/armacao3.jpg", "_self");
+}
 
 
 </script>
