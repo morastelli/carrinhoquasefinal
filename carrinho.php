@@ -9,11 +9,12 @@
         $nome = $linhas["nome"]; 
         $preco = $linhas["preco"]; 
         $qtd = $linhas["quantidade"];
-        $final= $preco * $qtd;
-        $dados_imagem = $linhas["imagem"];
-        $i = base64_encode($dados_imagem);
-        $total = number_format($final, 2, ',', ' ');
     }
+
+    $comando = $pdo->prepare("SELECT * FROM produtos WHERE nome = :nome");
+    $comando->bindParam(":nome", $nome);
+    $resultado = $comando->execute();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -39,16 +40,31 @@
      
      <!--PRODUTOS-->
      <div class="prot">
-        <div name="imagem" id="imagem" class="imagem"><?php echo(" <img src='data:image/jpeg;base64,$i'> <br> <br> "); ?></div>
+        <div name="imagem" id="imagem" class="imagem">
+        <?php 
+            while ($linhas = $comando->fetch()) 
+            {
+                $dados_imagem = $linhas["foto"];
+                $i = base64_encode($dados_imagem);
+                echo("<br> <img src='data:image/jpeg;base64,$i' width='100px'> <br> <br> ");
+            }
+        ?>
+        </div>
         <div class="resto">
             <div class="texto">
                 <h4 name="nome" id="nome"><?php echo($nome) ?></h4>
                 <h5 name="preco" id="preco">R$<?php echo($preco)?></h5>
             </div>
             <div class="addremove">
-                <button id="btn_decrementar" type="button" class="remove">-</button>
-                <p name="quantidade" class="number" id="contador">1</p>
-                <button id="btn_incrementar" type="button" class="add">+</button>
+                <button id="btn_decrementar" name="adicionar" type="button" class="remove">-</button>
+                <p name="quantidade" class="number" id="contador"></p>
+                <button id="btn_incrementar" name="remover" type="button" class="add">+</button>
+                <?php
+                     if(isset($_POST["adicionar"]) )
+                     {
+                        $comando -> $pdo -> prepare("UPDATE produtos SET quantidade");
+                     }
+                ?>
             </div>
         </div>
      </Div>
@@ -71,11 +87,21 @@ btnIncrementar.addEventListener("click", function()
 {
   contador++;
 
+  preco = <?php echo $preco; ?>;
+
+  preco = preco * contador;
+
+  console.log(preco);
+
   p$.innerHTML = contador;
 })
 btnDecrementar.addEventListener("click", function()
 {
   contador--;
+
+  preco = preco - <?php echo $preco; ?>;
+
+  console.log(preco);
 
   p$.innerHTML = contador;
     if (contador <= 0)
@@ -88,3 +114,4 @@ console.log(btnIncrementar);
 console.log(p$);
 </script>
 </html>
+
